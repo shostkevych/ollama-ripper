@@ -17,6 +17,17 @@ bun start
 
 First launch walks you through connecting to Ollama and picking a model.
 
+## System-wide Setup
+
+To run `ollama-ripper` from anywhere, add an alias to your `.zshrc`:
+
+```bash
+echo 'alias ripper="bun run --cwd ~/path/to/ollama-ripper start"' >> ~/.zshrc
+source ~/.zshrc
+```
+
+Replace `~/path/to/ollama-ripper` with the actual path where you cloned the repo. Then just type `ripper` from any directory.
+
 ## Features
 
 - AI agent with tool use (web search, file access, shell)

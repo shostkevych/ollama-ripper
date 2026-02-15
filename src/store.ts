@@ -1,7 +1,7 @@
 import * as fs from "node:fs";
 import * as path from "node:path";
 
-export const storeDir = path.join(process.env.HOME ?? "", ".localai");
+export const storeDir = path.join(process.env.HOME ?? "", ".ollama-ripper");
 const storePath = path.join(storeDir, "config.json");
 export const systemPromptPath = path.join(storeDir, "system-prompt.txt");
 export const rulesPath = path.join(storeDir, "rules.txt");
