@@ -1,8 +1,10 @@
 ![LOCAL.AGENT](cover.png)
 
-# LOCAL.AGENT
+# OLLAMA.RIPPER
 
 Private agentic CLI for your self-hosted AI. Runs on Ollama, stays on your machine.
+
+You ask -> Ollama answers. 
 
 ## Setup
 
