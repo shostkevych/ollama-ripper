@@ -1,0 +1,18 @@
+services:
+  ripper-server:
+    build: .
+    ports:
+      - "7474:7474"
+    environment:
+      - OLLAMA_URL=http://host.docker.internal:11434
+    volumes:
+      - server-data:/app/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "bun", "-e", "fetch('http://localhost:7474/health').then(r=>{if(!r.ok)process.exit(1)})"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+volumes:
+  server-data:
