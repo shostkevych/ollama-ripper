@@ -8,7 +8,7 @@ registerTool({
     function: {
       name: "create_tool",
       description:
-        "Create a custom tool from TypeScript code. The code must export a `spec` (OllamaTool) and an `execute(args) => Promise<string>` function. The code will be shown to the user for approval before saving.",
+        'Create a custom tool from TypeScript code. The code will be shown to the user for approval before saving. Code must export `spec` in nested format: `export const spec = { type: "function", function: { name, description, parameters } }` and `export async function execute(args): Promise<string>`. Use global `fetch` for HTTP (no imports needed). Do NOT import node-fetch.',
       parameters: {
         type: "object",
         properties: {
@@ -19,7 +19,7 @@ registerTool({
           code: {
             type: "string",
             description:
-              "Full TypeScript module source. Must export `spec` and `execute`.",
+              'Full TypeScript module. Must export `spec` with nested `{ type: "function", function: { name, description, parameters } }` and `execute(args): Promise<string>`.',
           },
         },
         required: ["name", "code"],
@@ -30,12 +30,18 @@ registerTool({
     const name = String(args.name);
     const code = String(args.code);
 
-    // Basic validation
+    // Validation
     if (!/^[a-z][a-z0-9-]*$/.test(name)) {
       return "Error: name must be lowercase alphanumeric with hyphens (e.g. 'http-ping').";
     }
     if (!code.includes("export") || !code.includes("spec") || !code.includes("execute")) {
       return "Error: code must export `spec` and `execute`.";
+    }
+    if (code.includes("node-fetch")) {
+      return 'Error: do not import node-fetch. Use the global `fetch` (built into Bun).';
+    }
+    if (!code.includes('type: "function"') && !code.includes("type: 'function'")) {
+      return 'Error: spec must use nested format: { type: "function", function: { name, description, parameters } }.';
     }
 
     // Show code to user for approval
